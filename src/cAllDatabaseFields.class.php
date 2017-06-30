@@ -306,7 +306,7 @@ class cDatabaseField {
 
     public function IsAutoincrement( ) {
 
-	return ( strpos( $this->m_extra, 'auto_increment' ) !== false );
+        return ( strpos( $this->m_extra, 'auto_increment' ) !== false );
 
     }	// function IsAutoincrement( )
 
@@ -376,26 +376,26 @@ class cAllDatabaseFields {
       * Example:
       *
       *
-      * @returns int the number of tables in the database
+      * @return int the number of tables in the database
       *
       */
 
     function GetTableCount( ) {
 
-	$ret = 0;
+        $ret = 0;
 
-	$last_table_name = '';
-	for ( $i = 0; $i < count( $this->m_a_database_fields ); $i++ ) {
+        $last_table_name = '';
+        for ( $i = 0; $i < count( $this->m_a_database_fields ); $i++ ) {
 
-	    if ( $this->m_a_database_fields[$i]->m_table_name != $last_table_name )  {
+            if ( $this->m_a_database_fields[$i]->m_table_name != $last_table_name )  {
 
-		  $ret++;
-		  $last_table_name = $this->m_a_database_fields[$i]->m_table_name;
-	    }
+            $ret++;
+            $last_table_name = $this->m_a_database_fields[$i]->m_table_name;
+            }
 
-	}
+        }
 
-	return $ret;
+        return $ret;
 
     }	// function GetTableCount( )
 
@@ -407,7 +407,7 @@ class cAllDatabaseFields {
       * Example:
       *
       *
-      * @returns bool true, if $tablename exists in the database
+      * @return bool true, if $tablename exists in the database
       * @param string $tablename the name of the table
       *
       */
@@ -436,7 +436,7 @@ class cAllDatabaseFields {
       * Example:
       *
       *
-      * @returns bool true, if the fieldname $fieldname exists in the database in teh table $tablename
+      * @return bool true, if the fieldname $fieldname exists in the database in teh table $tablename
       * @param string $tablename the name of the table
       * @param string $fieldname the name of the field
       *
@@ -467,7 +467,7 @@ class cAllDatabaseFields {
       * Example:
       *
       *
-      * @returns array an array with elements of cDatabaseField
+      * @return array an array with elements of cDatabaseField
       * @param string $tablename the name of the table
       * @param array $a_fields the resulting array with the table names
       *
@@ -500,7 +500,7 @@ class cAllDatabaseFields {
       * Example:
       *
       *
-      * @returns array an array with elements of string
+      * @return array an array with elements of string
       * @param string $tablename the name of the table
       * @param array $a_fields the resulting array with the table names
       *
@@ -534,7 +534,7 @@ class cAllDatabaseFields {
       * Example:
       *
       *
-      * @returns array an array with elements of cDatabaseField
+      * @return array an array with elements of cDatabaseField
       * @param array $aTables the resulting array with the table names
       *
       */
@@ -577,7 +577,7 @@ class cAllDatabaseFields {
       * Example:
       *
       *
-      * @returns int -1 if the field $fieldname in $tablename was not find, else the index
+      * @return int -1 if the field $fieldname in $tablename was not find, else the index
       * @param string $tablename the name of the table
       * @param string $fieldname the name of the field
       *
@@ -636,7 +636,7 @@ class cAllDatabaseFields {
       * Example:
       *
       *
-      * @returns cDatabaseField the searched database field
+      * @return cDatabaseField the searched database field
       * @param int $index the index of the database field, the position in the array
       *
       */
@@ -658,7 +658,7 @@ class cAllDatabaseFields {
       * Example:
       *
       *
-      * @returns int the number of cDatabaseField in the array
+      * @return int the number of cDatabaseField in the array
       *
       */
 
@@ -675,7 +675,7 @@ class cAllDatabaseFields {
       * Example:
       *
       *
-      * @returns string the name of the active database
+      * @return string the name of the active database
       *
       */
 
