@@ -1,0 +1,23 @@
+{
+    "name": "rstoetter/libsqlphp",
+    "description": "library with classes to manage mysql datebases and tables",
+    "license": "MIT",
+    "keywords": ["sql", "mysql","library"],
+    "authors": [
+        {
+            "name": "Rainer Stötter",
+            "email": "rstoetter@users.sourceforge.net"
+        }
+    ],
+    "require": {
+	
+    },
+    "require-dev": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "rstoetter\\libsqlphp\\": "src"
+        }
+    }
+}
