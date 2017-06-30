@@ -1,4 +1,4 @@
-# libdatephp
+# libsqlphp
 
 Some classes to manage MYSQL databases and tables written in PHP:
 
