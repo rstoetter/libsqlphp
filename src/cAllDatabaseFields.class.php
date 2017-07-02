@@ -864,7 +864,7 @@ class cAllDatabaseFields {
       public function SortEntries( ) {
 
 	  // Sort the multidimensional array - not necessary as the database does this job
-	  usort( $this->m_a_database_fields, "cAllDatabaseFields::fn_compare");
+	  usort( $this->m_a_database_fields, "\\rstoetter\\libsqlphp\\cAllDatabaseFields::fn_compare");
 
 
       }	// function SortEntries( )
