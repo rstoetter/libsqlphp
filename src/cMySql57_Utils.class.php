@@ -858,26 +858,28 @@ const  ERROR_ELSE= 8 ;		// anderer Fehler
 	    $id = strtoupper( $id );
 
 	    if ( ( $id == 'ALL') ||
-		( $id == 'DISTINCT' ) ||
-		( $id == 'DISTINCTROW' ) ||
-		( $id == 'HIGH_PRIORITY' ) ||
-		( $id == 'SQL_SMALL_RESULT' ) ||
-		( $id == 'SQL_BIG_RESULT' ) ||
-		( $id == 'SQL_BUFFER_RESULT' ) ||
-		( $id == 'SQL_CACHE' ) ||
-		( $id == 'SQL_NO_CACHE' ) ||
-		( $id == 'SQL_CALC_FOUND_ROWS' ) ||
-		( $id == 'STRAIGHT_JOIN' ) ||
-		( $id == 'MAX_STATEMENT_TIME' )
-		) {
+            ( $id == 'DISTINCT' ) ||
+            ( $id == 'DISTINCTROW' ) ||
+            ( $id == 'HIGH_PRIORITY' ) ||
+            ( $id == 'SQL_SMALL_RESULT' ) ||
+            ( $id == 'SQL_BIG_RESULT' ) ||
+            ( $id == 'SQL_BUFFER_RESULT' ) ||
+            ( $id == 'SQL_CACHE' ) ||
+            ( $id == 'SQL_NO_CACHE' ) ||
+            ( $id == 'SQL_CALC_FOUND_ROWS' ) ||
+            ( $id == 'STRAIGHT_JOIN' ) ||
+            ( $id == 'MAX_STATEMENT_TIME' )
+            ) {
 
-		return true;
+            return true;
 
 	    }
 
 	    // [MAX_STATEMENT_TIME = N] hat zwei weitere Token!
 
 
+	    return false;
+	    
 	}	// function IsStartStatement
 
 

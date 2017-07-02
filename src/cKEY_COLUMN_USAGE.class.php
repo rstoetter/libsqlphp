@@ -1359,8 +1359,8 @@ where TABLE_NAME = 'TEST_FK';
         $result = $this->m_mysqli->query( $query );
 
         if ( $result === false ) {
-	    var_dump(debug_backtrace());
-	    die("\n cKEY_COLUMN_USAGE: Abbruch wegen Fehlers bei $query");
+            var_dump(debug_backtrace());
+            die("\n cKEY_COLUMN_USAGE: Abbruch wegen Fehlers bei $query");
         }
 
 
