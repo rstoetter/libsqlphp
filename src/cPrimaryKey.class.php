@@ -650,14 +650,17 @@ class cPrimaryKey {
 	// liefert ein Feld bestehend aus den Datenbankfelder des Foreign Keys auf die Tabelle $tablename
 	// die NULL-Felder werden nicht verwendet und können später mit Werten aufgefüllt werden
 
-	assert( get_class( $obj_key_column_usage ) == 'rstoetter\libsqlphp\cKEY_COLUMN_USAGE' );
+	if( get_class( $obj_key_column_usage ) != 'rstoetter\libsqlphp\cKEY_COLUMN_USAGE' ) {
+        var_dump( $obj_key_column_usage );
+        die( "\n Abbruch GenerateFrom" );
+	}
 
 	$this->m_a_fields = array( );
 	$this->m_a_values = array( );
 
-	for ( $i = 0; $i < count( $obj_key_column_usage->m_acKEY_COLUMN_USAGE ); $i++ ) {
+	for ( $i = 0; $i < count( $obj_key_column_usage->m_a_entries ); $i++ ) {
 
-	  $obj = $obj_key_column_usage->m_acKEY_COLUMN_USAGE[$i];
+	  $obj = $obj_key_column_usage->m_a_entries[$i];
 
 	  if (
 	      ( $obj->m_TABLE_NAME == $this->m_table_name ) &&
