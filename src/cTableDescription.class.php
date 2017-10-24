@@ -629,7 +629,7 @@ class cTableDescription {
 	// Der Spaltenname darf nicht qualifiziert sein!
 
 	for ( $i = 0; $i < count( $this->m_a_entries ); $i++ ) {
-
+// echo "\n" . $this->m_a_entries[ $i ]->m_COLUMN_NAME;
 	    if ( $this->m_a_entries[ $i ]->m_COLUMN_NAME == $column_name ) return true;
 
 	}
@@ -654,8 +654,9 @@ class cTableDescription {
       */         
     
     
-    protected function ScanForConstraints( ) {
-
+    protected function ScanForConstraints( ) {   
+    
+    
     $schema = ( strlen( $this->m_schema_name ) ? " {$this->m_schema_name}." : '' );
 
     $query ="

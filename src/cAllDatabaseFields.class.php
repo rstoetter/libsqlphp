@@ -588,11 +588,13 @@ class cAllDatabaseFields {
 	//
 	// liefert den Index für das Feld, welches einer bestimmten Tabelle und einem bestimmten Feld zugeordnet ist
 	//
-
+// echo "\n GetIndexOf() mit tn = '$tablename' und fn = '$fieldname'";
 	for ( $i = 0; $i < count( $this->m_a_database_fields ); $i++ ) {
-
+//         if (  ( $this->m_a_database_fields[$i]->m_table_name == $tablename ) ) echo "\n" . $this->m_a_database_fields[$i]->m_column_name;
 	    if (  ( $this->m_a_database_fields[$i]->m_table_name == $tablename ) &&
 		  ( $this->m_a_database_fields[$i]->m_column_name == $fieldname ) ) {
+		  
+		  
 
 		  return $i;
 	    }
@@ -618,11 +620,11 @@ class cAllDatabaseFields {
 	for ( $i = 0; $i < count( $this->m_a_database_fields ); $i++ ) {
 
 	    if ( strlen( $table_name ) ) {
-		if ( $this->m_a_database_fields[$i]->m_table_name == $table_name ) {
-		    $this->m_a_database_fields[$i]->Dump( $in_detail );
-		}
+            if ( $this->m_a_database_fields[$i]->m_table_name == $table_name ) {
+                $this->m_a_database_fields[$i]->Dump( $in_detail );
+            }
 	    } else {
-		$this->m_a_database_fields[$i]->Dump( $in_detail );
+            $this->m_a_database_fields[$i]->Dump( $in_detail );
 	    }
 
 	}
