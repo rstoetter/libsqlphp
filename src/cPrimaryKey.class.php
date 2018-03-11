@@ -649,7 +649,7 @@ class cPrimaryKey {
 	  for ( $i = 0; $i < count( $this->m_a_fields); $i++ ) {
 
 	      $sql_constraint .= ( $i > 0 ? ' AND ' : '' );
-	      $sql_constraint .= $this->m_a_fields[ $i ] . '=:' .= $this->m_a_fields[ $i ];
+	      $sql_constraint .= $this->m_a_fields[ $i ] . '=:' . $this->m_a_fields[ $i ];
 
 	  }
 
