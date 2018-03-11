@@ -547,7 +547,7 @@ class cPrimaryKey {
 
     /**
       *
-      * The method AsSQLDeleteStatement( ) returns a SQL DELETE statement fitting for the managed primary key, which reflects the keys of the primary key and the values as %s
+      * The method AsSQLDeleteCode( ) returns a SQL DELETE statement fitting for the managed primary key, which reflects the keys of the primary key and the values as %s
       * The values are surrounded by "
       *
       * Example:
@@ -568,6 +568,31 @@ class cPrimaryKey {
 	  return $sql_delete;
 
       }	// function AsSQLDeleteCode( )
+      
+    /**
+      *
+      * The method AsSQLDeleteCodeWithVars( ) returns a SQL DELETE statement fitting for the managed primary key, which reflects the keys of the primary key and the values as ':' plus the column name
+      * The values are surrounded by "
+      *
+      * Example:
+      *
+      * @return string the SQL DELETE statement fitting for the managed primary key
+      * @see AsSQLCodeConstraint
+      * @see AsSQLConstraint
+      * @see AsSQLDeleteCode
+      * @see AsSQLDeleteStatement
+      *
+      */
+
+
+       public function AsSQLDeleteCodeWithVars( ) {
+
+	  $sql_delete ="DELETE FROM $this->m_table_name WHERE " . $this->AsSQLCodeConstraintWithVars( );
+
+	  return $sql_delete;
+
+      }	// function AsSQLDeleteCodeWithVars( )
+      
 
     /**
       *
@@ -599,6 +624,38 @@ class cPrimaryKey {
 	  return $sql_constraint;
 
       }	// function AsSQLCodeConstraint( )
+      
+    /**
+      *
+      * The method AsSQLCodeConstraintWithVars( ) returns a SQL constraint fitting for the managed primary key, which reflects the keys of the primary key and sets ':' plus the column name for the values
+      * The values are surrounded by "
+      *
+      * Example:
+      *
+      * @return string the SQL constraint fitting for the managed primary key
+      * @see AsSQLCodeConstraint
+      * @see AsSQLConstraint
+      * @see AsSQLDeleteCode
+      * @see AsSQLDeleteStatement
+      *
+      */
+
+      
+      
+      public function AsSQLCodeConstraintWithVars( ) {
+
+	  $sql_constraint ="";
+
+	  for ( $i = 0; $i < count( $this->m_a_fields); $i++ ) {
+
+	      $sql_constraint .= ( $i > 0 ? ' AND ' : '' );
+	      $sql_constraint .= $this->m_a_fields[ $i ] . '=:' .= $this->m_a_fields[ $i ];
+
+	  }
+
+	  return $sql_constraint;
+
+      }	// function AsSQLCodeConstraintWithVars( )      
 
 
     /**
