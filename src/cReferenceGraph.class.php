@@ -71,6 +71,67 @@ cReferenceGraph:: (10 methods):
 
 namespace rstoetter\libsqlphp;
 
+/**
+  *
+  * The class cTableReference represents a Table reference. The namespace is rstoetter\libsqlphp.
+  *
+  * @author Rainer Stötter
+  * @copyright 2010-2017 Rainer Stötter
+  * @license MIT
+  * @version =1.0
+  *
+  */
+
+
+class cTableReference {
+
+    /**
+      *
+      * @var int m_level the level of the table reference. The level is null for primary references which refer to the primary table. The level is 2 for references refering to the primary references and so on.
+      * 
+      *
+      *
+      */
+
+
+    public $m_level = 0;    
+    
+    /**
+      *
+      * @var string m_table_name is the name of the table refering to m_refering_to_table_name
+      * 
+      *
+      *
+      */
+      
+    
+    public $m_table_name = '';
+    
+    /**
+      *
+      * @var string m_referred_table_name is the name of the table refered by m_table_name
+      * 
+      *
+      *
+      */
+    
+    
+    public $m_referred_table_name = '';
+    
+    
+    function __construct( int $level, string $refered_table_name ,string $table_name ) {
+    
+        $this->m_level = $level;
+        $this->m_table_name = $table_name;
+        $this->m_referred_table_name = $refered_table_name;
+    
+    
+    }   // function __construct( )
+
+
+}   // class cTableReference
+
+
 
 /**
   *
@@ -82,7 +143,6 @@ namespace rstoetter\libsqlphp;
   * @version =1.0
   *
   */
-
 
 class cReferenceGraphItem {
 
@@ -351,48 +411,147 @@ class cReferenceGraph {
   protected $m_a_references = NULL;	// Feld aus Elementen vom Typ cReferenceGraphItem
   // protected $m_itemcount = 0;
 
+  
+    /**
+      *
+      * The method GetReferenceTableObjects returns all tables in $a_obj_references, which refer to the table $table_name
+      * The array $a_obj_references consists of elements of type cTableReference
+      *
+      * Example:
+      *      
+      * @param array $a_obj_table_references is an array of cTableReference objects with all tables, which refer to the table $table_name      . It will be filled by the method
+      * @param string $table_name the name of the table to examine
+      * @param bool $include_self_referencing_tables is false by default - if true, then self-referencing tables are included 
+      *
+      */
+      
+    public function GetReferenceTableObjects( array & $a_obj_table_references ,string $table_name, bool $include_self_referencing_tables = false ) {
+    
+        $level = 0;
+        $fertig = false;
+        
+        $first_index = 0;
+        
+        $a_obj_table_references = array( );         
+        
+        // first fill with primary table references
+        
+        $a_referencing_tables = array( );
+        $this->GetReferencingTables( $a_referencing_tables, $table_name );                 
+        
+        for ( $i = 0; $i < count( $a_referencing_tables ); $i++ ) {
+            if ( ! $include_self_referencing_tables && ( $table_name == $a_referencing_tables[ $i ] ) ) {
+            } else {
+                $a_obj_table_references[] = new cTableReference( $level, $table_name, $a_referencing_tables[ $i ] );
+            }
+        }        
+        
+        // next fills with secondary table references
+        
+        // echo "\n GetReferenceTableObjects( ) starting with " . $table_name;
+        
+        $level = 1;
+        
+        while( ! $fertig ) {
+        
+            $added = 0;
+        
+            // echo "\n count = " . count( $a_obj_table_references ) . " first_index = $first_index added = $added" ;        
+        
+            for ( $j = $first_index; $j < count( $a_obj_table_references ); $j++ ) {
+            
+                $table_name_secondary = $a_obj_table_references[ $j ]->m_table_name;
+            
+                $a_referencing_tables = array( );
+                $this->GetReferencingTables( $a_referencing_tables, $table_name_secondary ); 
+                
+                foreach ( $a_referencing_tables as $reference ) {
+                    if ( ! $include_self_referencing_tables && ( $table_name_secondary == $reference ) ) {
+                        // 
+                    } else {                
+                        if ( ! $this->ReferenceRegistered( $reference, $a_obj_table_references ) ) {
+                            $added++;
+                            $a_obj_table_references[] = new cTableReference( $level, $table_name_secondary, $reference, $table_name );
+                        }
+                    }
+                }
+                
+            }
+            
+            $fertig = ( $added == 0 );
+            
+            $first_index = count( $a_obj_table_references ) - $added;
+            
+            $level++;
+            
+        }            
+        
+            
+    
+    }   // function GetAllReferencingTableObjects( )
+    
+    protected function ReferenceRegistered( string $entry, array $a_obj_table_references ) : bool {
+    
+        // eliminate double entries
+    
+        foreach( $a_obj_table_references as $reference ){
+        
+            if ( $reference->m_table_name == $entry ) {
+                    
+                return true;
+            }
+        
+        }
+        
+        return false;
+    
+    }   // function ReferenceRegistered( )    
+  
 
     /**
       *
-      * The method GetReferencingTables returns all table names, which refer to the table $table_name
+      * The method GetReferencingTables returns all table names in $a_referencing_tables, which refer to the table $table_name
       *
       * Example:
       *
+      * @param array $a_referencing_tables array an array with all table names of type string, which refer to the table $table_name. It will be filled by the method
       * @param string $table_name the name of the table to examine
-      * @return array an array with all table objects of type cKEY_COLUMN_USAGE_Entry, which refer to the table $table_name
       *
       */
+      
 
-
-  public function GetReferencingTables( $table_name ) {
+  public function GetReferencingTables( array & $a_referencing_tables, string $table_name ) {
+  
 
   // TODO array via param, nicht return
 
-      // liefert Feld vom Typ cKEY_COLUMN_USAGE_Entry mit den Tabellen, die von Tabelle $table_name abhängig sind und
-      // auf $table_name referenzieren
+      // liefert Feld aus Zeichenketten mit den Tabellennamen, die auf $table_name verweisen
 
+      $a_referencing_tables = array( );
+      
       $ret = array( );
 
       for ( $i = 0; $i < count( $this->m_a_references ); $i++ ) {
 
-	if ( $this->m_a_references[ $i ]->m_table_name == $table_name ) {
+        if ( $this->m_a_references[ $i ]->m_table_name == $table_name ) {
 
-	    $obj = $this->m_a_references[ $i ];
-	    for ( $j = 0; $j < count( $obj->m_a_references ); $j++ ) {
+            $obj = $this->m_a_references[ $i ];
+            for ( $j = 0; $j < count( $obj->m_a_references ); $j++ ) {
 
-		$ret[] = $obj->m_a_references[ $j ];
+                $a_referencing_tables[] = $obj->m_a_references[ $j ]->m_TABLE_NAME;
 
-	    }
+            }
 
-	}
+        }
 
-      }
+      }      
+      
 
-
-      return $ret;
 
 
   }	// function GetReferencingTables( )
+  
+  
 
 
   public function Dump( ) {
@@ -560,12 +719,6 @@ class cReferenceGraph {
 	  }
 
 
-	    /* } /* else {
-
-		$newobj = new cReferenceGraphItem( $obj, $obj->TABLE_NAME );
-		$this->m_a_references[] = &$obj;
-
-	    }*/
 
       } else {
 
@@ -657,9 +810,7 @@ class cReferenceGraph {
 
 	  }
 
-// 	  $table_name = $obj->m_TABLE_NAME;
-// 	  $fieldname = $obj->m_COLUMN_NAME;
-// 	  $constraint = $obj->m_CONSTRAINT_NAME;
+
 
 	} else {
 
